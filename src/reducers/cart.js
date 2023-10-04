@@ -5,20 +5,20 @@ const updateLocalStorage = (newCart) => {
 }
 
 export const cartReducer = (state, action) => {
-    const { id } = action
+    const { id } = action.payload
     const isInCart = [...state].findIndex(item => item.id === id)
 
     switch (action.type) {
         case 'ADD_TO_CART':
             if(isInCart >= 0) {
                 const newState = structuredClone(state)
-                newCart[isInCart].quantity += 1
+                newState[isInCart].quantity += 1
                 updateLocalStorage(newState)
     
                 return newState
             } else {
-                const newState = [...state, {...action, quantity: 1}]
-                updateCart(newState)
+                const newState = [...state, {...action.payload, quantity: 1}]
+                updateLocalStorage(newState)
 
                 return newState
             }
@@ -26,10 +26,10 @@ export const cartReducer = (state, action) => {
             const newState = [...state].filter(item => item.id != id)
             updateLocalStorage(newState)
 
-            return setCart(newCart)
+            return newState
         case 'CLEAR_CART': 
             updateLocalStorage([])
-            setCart([])
+            return []
     }
 
 }

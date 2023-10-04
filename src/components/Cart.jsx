@@ -3,13 +3,13 @@ import { CartIcon, CartPlus, RemoveFromCartIcon } from "./Icons";
 import { CartContext } from "../context/cart";
 
 export function Cart() {
-    const { cart, updateCart, clearCart } = useContext(CartContext)
+    const { cart, addToCart, clearCart } = useContext(CartContext)
     return (
         <>
-        <label htmlFor="cart" className='cart-icon'>
+        <label htmlFor='cart' className='cart-icon'>
           <CartIcon />
         </label>
-        <input type="checkbox" id="cart" hidden/>
+        <input type="checkbox" id='cart' hidden/>
 
         <aside className="cart">
             <ul>
@@ -20,7 +20,7 @@ export function Cart() {
                         <h4>{item.title} - <span>{item.price}</span></h4>
                         <div>
                             <span>Qty: {item.quantity}</span>
-                            <button onClick={() => updateCart(item, 'add')}>
+                            <button onClick={() => addToCart(item)}>
                                 <CartPlus />
                             </button>
                         </div>
@@ -28,7 +28,7 @@ export function Cart() {
                  ))
             }
             </ul>
-            <button className="clear-cart" onClick={() => clearCart()}>
+            <button className="clear-cart" onClick={clearCart}>
                 <RemoveFromCartIcon />
             </button>
         </aside>

@@ -1,3 +1,4 @@
+import { useReducer } from "react"
 import { cartReducer, initialValue } from "../reducers/cart"
 
 export function useCart() {
@@ -17,10 +18,10 @@ export function useCart() {
         })
     }
 
-    const clearCart = (product) => {
+    const clearCart = () => {
         dispatch({
             type: 'CLEAR_CART',
-            payload: product
+            payload: []
         })
     }
 
