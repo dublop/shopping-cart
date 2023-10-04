@@ -6,7 +6,7 @@ export function CartProvider({ children }) {
     const initialValue =  JSON.parse(window.localStorage.getItem('cart-01')) || []
 
     const updateLocalStorage = (newCart) => {
-        localStorage.setItem('cart-01', JSON.stringify(newCart))
+        window.localStorage.setItem('cart-01', JSON.stringify(newCart))
     }
 
     const [cart, setCart] = useState(initialValue)
@@ -21,17 +21,11 @@ export function CartProvider({ children }) {
                 updateLocalStorage(newCart)
                 return setCart(newCart)
             } else {
-                const newCart = setCart(prevState => [
-                    ...prevState,
-                    {
-                        ...product,
-                        quantity: 1
-                    }
-                ])
+                const newCart = [...cart, {...product, quantity:1}]
 
-                updateCart([...cart, {...product, quantity:1}])
+                updateCart(newCart)
 
-                return newCart
+                return setCart(newCart)
             }
         } else {
             const newCart = [...cart].filter(item => item.id != product.id)
