@@ -12,7 +12,7 @@ export function Products({ products }) {
           products.map(product => {
             const isInCart = cart.findIndex(item => item.id === product.id) >= 0 
             return (
-              <ProductItem {...product} isInCart={isInCart} product={product} />
+              <ProductItem {...product} isInCart={isInCart} product={product} key={product.id}/>
             )
           })
         }
