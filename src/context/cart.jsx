@@ -1,48 +1,16 @@
-import { useState, createContext } from "react"
+import { createContext } from "react"
+import { useCart } from "../hooks/useCart"
+
 
 export const CartContext = createContext()
 
 export function CartProvider({ children }) {
-    const initialValue =  JSON.parse(window.localStorage.getItem('cart-01')) || []
-
-    const updateLocalStorage = (newCart) => {
-        window.localStorage.setItem('cart-01', JSON.stringify(newCart))
-    }
-
-    const [cart, setCart] = useState(initialValue)
-
-    const updateCart = (product, action) => {
-        const isInCart = [...cart].findIndex(item => item.id === product.id)
-
-        if(action === 'add') {
-            if(isInCart >= 0) {
-                const newCart = structuredClone(cart)
-                newCart[isInCart].quantity += 1
-                updateLocalStorage(newCart)
-                return setCart(newCart)
-            } else {
-                const newCart = [...cart, {...product, quantity:1}]
-
-                updateCart(newCart)
-
-                return setCart(newCart)
-            }
-        } else {
-            const newCart = [...cart].filter(item => item.id != product.id)
-            updateLocalStorage(newCart)
-            return setCart(newCart)
-        }
-    }
-
-    const clearCart = () => {
-        updateLocalStorage([])
-        setCart([])
-    }
+    const { cart, addToCart, removeFromCart, clearCart } = useCart()
     return (
         <CartContext.Provider value={{
-            cart,
-            setCart,
-            updateCart,
+            cart, 
+            addToCart, 
+            removeFromCart, 
             clearCart
         }}>
             { children }
